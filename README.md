@@ -4,13 +4,9 @@ A new Flutter application.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a starting point as flutter app developer journey.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Added the following to my main.dart code.
+1. 2 classes(both expanding stateless widget) for home page and to route to next page.
+2. 2 Textfields and and a flatbutton in home page  for login screen.
+3. A text widget for displaying name and 3 containers aligned in rows for showing 3 colors that'll be returned from remote server.

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -35,12 +37,16 @@ class MyApp extends StatelessWidget {
             ),
             Builder(
               builder:(context) => FlatButton(
-                onPressed: (){
+                onPressed: () async {
                   if(uname.text == 'Test' && pass.text == 'Test'){
                     print("Okay");
                     Scaffold.of(context).showSnackBar(SnackBar(
                         content: Text("Username and Password Okay")));
-                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SecondPage()));
+                    var url = 'https://demo.outlogics.com/test/test_login.php';
+                    Response response = await post(url);
+                    print(response.body);
+                    String apiresponse = "John, #000000, #B00020, #6200EE";
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SecondPage(apiresponse)));
 
                   }
                   if(uname.text.isEmpty || pass.text.isEmpty){
@@ -66,10 +72,25 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
+
   }
 }
 
 class SecondPage extends StatelessWidget {
+  String apiResponse = "initial";
+  String name;
+  var col1, col2, col3;
+  List<String> splitted;
+  SecondPage(apiresponse){
+    this.apiResponse = apiresponse;
+    splitted = apiResponse.split(', ');
+    name = splitted[0];
+    col1 = splitted[1];
+    col2 = splitted[2];
+    col3 = splitted[3];
+    print(name);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +102,7 @@ class SecondPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: <Widget>[
-            Text("Name",
+            Text("$name",
               style: TextStyle(
                 fontSize: 30.00,
                 letterSpacing: 2.0,
@@ -95,7 +116,7 @@ class SecondPage extends StatelessWidget {
                     width: 150.00,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.blue,
+                      color: Hexcolor(col1),
                     ),
                   ),
                 ),
@@ -106,7 +127,7 @@ class SecondPage extends StatelessWidget {
                     width: 150.00,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.red,
+                      color: Hexcolor(col2),
                     ),
                   ),
                 ),
@@ -116,7 +137,7 @@ class SecondPage extends StatelessWidget {
                     height: 150.0,
                     width: 150.00,
                     decoration: BoxDecoration(
-                      color: Colors.pinkAccent,
+                      color: Hexcolor(col3),
                       shape: BoxShape.circle,
 
                     ),

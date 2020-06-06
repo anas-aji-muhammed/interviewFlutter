@@ -7,6 +7,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  TextEditingController uname = new TextEditingController();
+  TextEditingController pass = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,28 +18,52 @@ class MyApp extends StatelessWidget {
         backgroundColor: Colors.blueGrey,
 
       ),
-      body: Column(
-        children: <Widget>[
-          TextField(
-            decoration: InputDecoration(
-                labelText: 'Enter User Name'
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            TextField(
+              controller: uname,
+              decoration: InputDecoration(
+                  labelText: 'Enter User Name'
+              ),
             ),
-          ),
-          TextField(
-            decoration: InputDecoration(
-                labelText: 'Enter Password'
+            TextField(
+              controller: pass,
+              decoration: InputDecoration(
+                  labelText: 'Enter Password'
+              ),
             ),
-          ),
-          FlatButton(
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SecondPage()));
-            },
-            child: Text("Login"),
-            color: Colors.blue,
-          )
+            Builder(
+              builder:(context) => FlatButton(
+                onPressed: (){
+                  if(uname.text == 'Test' && pass.text == 'Test'){
+                    print("Okay");
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text("Username and Password Okay")));
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SecondPage()));
+
+                  }
+                  if(uname.text.isEmpty || pass.text.isEmpty){
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text("Enter all fields")));
+                        print("Type something");
+                  }
+                  if(uname.text != 'Test' && pass.text != 'Test'){
+                    print("Okay");
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text("Username or Password Wrong")));
+                  }
 
 
-        ],
+                },
+                child: Text("Login"),
+                color: Colors.blue,
+              ),
+            )
+
+
+          ],
+        ),
       ),
     );
   }

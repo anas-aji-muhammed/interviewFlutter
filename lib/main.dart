@@ -55,7 +55,11 @@ class SecondPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: <Widget>[
-            Text("Name"),
+            Text("Name",
+              style: TextStyle(
+                fontSize: 30.00,
+                letterSpacing: 2.0,
+              ),),
             Row(
               children: <Widget>[
                 Expanded(

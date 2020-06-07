@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'dart:convert';
 
 void main() {
   runApp(MaterialApp(
@@ -42,11 +43,15 @@ class MyApp extends StatelessWidget {
                     print("Okay");
                     Scaffold.of(context).showSnackBar(SnackBar(
                         content: Text("Username and Password Okay")));
-                    var url = 'https://demo.outlogics.com/test/test_login.php';
-                    Response response = await post(url);
-                    print(response.body);
-                    String apiresponse = "John, #000000, #B00020, #6200EE";
-                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SecondPage(apiresponse)));
+                    var url = 'https://demo.outlogics.com/test/test_login.php?username=Test&password=Test';
+                    Response response = await post(url , body: {
+                      "username" : 'Test',
+                      "password" : 'Test'
+                    });
+                    Map map = jsonDecode(response.body);
+                    print(map['user']['name']);
+                    print(map['color']['color1']);
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SecondPage(map)));
 
                   }
                   if(uname.text.isEmpty || pass.text.isEmpty){
@@ -77,18 +82,16 @@ class MyApp extends StatelessWidget {
 }
 
 class SecondPage extends StatelessWidget {
-  String apiResponse = "initial";
+  Map apiResponse;
   String name;
   var col1, col2, col3;
   List<String> splitted;
-  SecondPage(apiresponse){
-    this.apiResponse = apiresponse;
-    splitted = apiResponse.split(', ');
-    name = splitted[0];
-    col1 = splitted[1];
-    col2 = splitted[2];
-    col3 = splitted[3];
-    print(name);
+  SecondPage(apiresponseMap){
+    this.apiResponse = apiresponseMap;
+    name = apiresponseMap['user']['name'] as String;
+    col1 = "#" + apiresponseMap['color']['color1'];
+    col2 = "#" + apiresponseMap['color']['color2'];
+    col3 = "#" + apiresponseMap['color']['color3'];
   }
 
   @override
